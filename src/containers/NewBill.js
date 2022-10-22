@@ -1,5 +1,5 @@
-import { ROUTES_PATH } from '../constants/routes.js'
-import Logout from "./Logout.js"
+import { ROUTES_PATH } from "../constants/routes.js";
+import Logout from "./Logout.js";
 
 export default class NewBill {
   constructor({ document, onNavigate, store, localStorage }) {
@@ -10,7 +10,6 @@ export default class NewBill {
       `form[data-testid="form-new-bill"]`
     );
     formNewBill.addEventListener("submit", this.handleSubmit);
-    //voir si remplacer const par let (sur file)
     const file = this.document.querySelector(`input[data-testid="file"]`);
     file.addEventListener("change", this.handleChangeFile);
     this.fileUrl = null;
@@ -29,50 +28,38 @@ export default class NewBill {
     formData.append("file", file);
     formData.append("email", email);
 
-  //   this.store
-  //     .bills()
-  //     .create({
-  //       data: formData,
-  //       headers: {
-  //         noContentType: true,
-  //       },
-  //     })
-  //     .then(({ fileUrl, key }) => {
-  //       console.log(fileUrl);
-  //       this.billId = key;
-  //       this.fileUrl = fileUrl;
-  //       this.fileName = fileName;
-  //     })
-  //     .catch((error) => console.error(error));
-  // };
-
-  /************************************************************************** */
-  //affichage des file jpg,jpeg,png
-    if (e.target.value.includes('jpg') || e.target.value.includes('jpeg')|| e.target.value.includes('png')){
-     this.store
+    //affichage des file jpg,jpeg,png (rajout jpeg et png)
+    if (
+      e.target.value.includes("jpg") ||
+      e.target.value.includes("jpeg") ||
+      e.target.value.includes("png")
+    ) {
+      this.store
         .bills()
         .create({
           data: formData,
           headers: {
-            noContentType: true
-          }
+            noContentType: true,
+          },
         })
-        .then(({fileUrl, key}) => {
-          console.log(fileUrl)
-          this.billId = key
-          this.fileUrl = fileUrl
-          this.fileName = fileName
-        }).catch(error => console.error(error))
-  }else {
-    let errorFileFormat = document.createElement('p')
-    errorFileFormat.classList.add('text-warning-file')
-    errorFileFormat.setAttribute('data-testid', 'errorFormatMessage')
-    errorFileFormat.innerText = "Choisir un format supporté (.JPG, .JPEG, .PNG)"
-    e.target.parentNode.append(errorFileFormat)
-  e.target.value = ''
-  }
-  }
- /*********************************************************************************** */
+        .then(({ fileUrl, key }) => {
+          console.log(fileUrl);
+          this.billId = key;
+          this.fileUrl = fileUrl;
+          this.fileName = fileName;
+        })
+        .catch((error) => console.error(error));
+    } else {
+      //message d'erreur de format (extension)
+      let errorFileFormat = document.createElement("p");
+      errorFileFormat.classList.add("text-warning-file");
+      errorFileFormat.setAttribute("data-testid", "errorFormatMessage");
+      errorFileFormat.innerText =
+        "Choisir un format supporté (.JPG, .JPEG, .PNG)";
+      e.target.parentNode.append(errorFileFormat);
+      e.target.value = "";
+    }
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();

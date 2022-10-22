@@ -8,8 +8,8 @@ import { fireEvent, screen } from "@testing-library/dom";
 /************************ */
 
 //import { screen } from "@testing-library/dom"
-import NewBillUI from "../views/NewBillUI.js"
-import NewBill from "../containers/NewBill.js"
+import NewBillUI from "../views/NewBillUI.js";
+import NewBill from "../containers/NewBill.js";
 
 /*********rajout********* */
 import BillsUI from "../views/BillsUI";
@@ -20,16 +20,16 @@ import Store from "../app/Store";
 /*********************** */
 
 /***********************rajout******************** */
-// identify as employee 
+// identify as employee
 const onNavigate = (pathname) => {
-  document.body.innerHTML = ROUTES({pathname})
-}
+  document.body.innerHTML = ROUTES({ pathname });
+};
 /*********************************************** */
 
-Object.defineProperty(window, 'LocalStorage', {value: localStorageMock})
-window.localStorage.setItem('user', JSON.stringify({type: 'Employee'}))
+Object.defineProperty(window, "LocalStorage", { value: localStorageMock });
+window.localStorage.setItem("user", JSON.stringify({ type: "Employee" }));
 
-/**************exemple de test à faire************************ */
+/*********************Test Example************************ */
 // describe("Given I am connected as an employee", () => {
 //   describe("When I am on NewBill Page", () => {
 //     test("Then ...", () => {
@@ -40,24 +40,24 @@ window.localStorage.setItem('user', JSON.stringify({type: 'Employee'}))
 //   })
 // })
 
-/************************rajout******************* */
+//Vérification de l'extension justificatif au téléchargement
 describe("Given I am on NewBill Page", () => {
   describe("When I upload an image file", () => {
-    test("Then the file extension is correct", () => {
+    test("Then the file extension is correct", async () => {
+      document.body.innerHTML = NewBillUI();
       const newBill = new NewBill({
         document,
         onNavigate,
         store: null,
         localStorage: window.localStorage,
       });
-      //loading file
+      //Chargement du fichier
       const handleChangeFile = jest.fn(() => newBill.handleChangeFile);
       const inputFile = screen.queryByTestId("file");
 
-      // addeventlistener file
       inputFile.addEventListener("change", handleChangeFile);
 
-      //fire event
+      //Déclencheur d'évenement
       fireEvent.change(inputFile, {
         target: {
           files: [
@@ -70,7 +70,7 @@ describe("Given I am on NewBill Page", () => {
     });
   });
 });
-
+//Soumission du formulaire pour la création de facture
 describe("Given I am on NewBill Page", () => {
   describe("And I submit a valid bill form", () => {
     test("Then a bill is created", async () => {
@@ -82,7 +82,7 @@ describe("Given I am on NewBill Page", () => {
         localStorage: window.localStorage,
       });
 
-      //create new bill form
+      //création d'un nouveau formulaire de facture
       const handleSubmit = jest.fn(newBill.handleSubmit);
       const newBillForm = screen.getByTestId("form-new-bill");
       newBillForm.addEventListener("submit", handleSubmit);
@@ -92,7 +92,8 @@ describe("Given I am on NewBill Page", () => {
   });
 });
 
-//integration
+// test d'intégration POST
+//A la validation de formulaire
 describe("Given I am a user connected as en Employee", () => {
   describe("When I valid bill form", () => {
     test("Then a bill is created", async () => {
@@ -104,7 +105,7 @@ describe("Given I am a user connected as en Employee", () => {
         localStorage: window.localStorage,
       });
 
-      //new bill with handleSubmit
+      //Nouveau bill avec handleSubmit
       const submit = screen.queryByTestId("form-new-bill");
       const billTest = {
         name: "testing",
@@ -122,7 +123,7 @@ describe("Given I am a user connected as en Employee", () => {
       //click submit
       const handleSubmit = jest.fn((e) => newBill.handleSubmit(e));
 
-      //apply to the DOM
+      //L'application au DOM
       newBill.createBill = (newBill) => newBill;
       document.querySelector(`select[data-testid="expense-type"]`).value =
         billTest.type;
@@ -143,12 +144,12 @@ describe("Given I am a user connected as en Employee", () => {
 
       fireEvent.click(submit);
 
-      //verify if handleSubmit was called
+      //verifie si handleSubmit est appelé
       expect(handleSubmit).toHaveBeenCalled();
     });
   });
 });
-
+// Si je veux poster un fichier png, la fonction handleChangeFile doit être appelé
 describe("When I navigate to the newbill page, and I want to post an PNG file", () => {
   test("Then function handleChangeFile should be called", () => {
     const html = NewBillUI();
@@ -173,7 +174,7 @@ describe("When I navigate to the newbill page, and I want to post an PNG file", 
     expect(handleChangeFile).toHaveBeenCalled();
   });
 });
-
+// Si je veux poster un fichier pdf, la fonction handleChangeFile doit être appelé
 describe("When I navigate to the newbill page, and I want to post an PDF file", () => {
   test("Then function handleChangeFile should be called", () => {
     const html = NewBillUI();
@@ -202,7 +203,7 @@ describe("When I navigate to the newbill page, and I want to post an PDF file", 
     expect(file.value).toBe("");
   });
 });
-
+//Gestion d'erreur 404/500
 describe("When an error occurs on API", () => {
   beforeEach(() => {
     jest.spyOn(store, "bills");
@@ -226,9 +227,10 @@ describe("When an error occurs on API", () => {
         },
       };
     });
+    // initialise le body
     const html = BillsUI({ error: "Erreur 404" });
     document.body.innerHTML = html;
-    const message = screen.getByText(/Erreur 404/); //suppr await
+    const message = screen.getByText(/Erreur 404/);
     expect(message).toBeTruthy();
   });
 
@@ -240,10 +242,10 @@ describe("When an error occurs on API", () => {
         },
       };
     });
-
+    //initialise le body
     const html = BillsUI({ error: "Erreur 500" });
     document.body.innerHTML = html;
-    const message = screen.getByText(/Erreur 500/); //suppr await
+    const message = screen.getByText(/Erreur 500/);
     expect(message).toBeTruthy();
   });
 });

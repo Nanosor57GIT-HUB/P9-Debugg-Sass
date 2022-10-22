@@ -50,7 +50,7 @@ export default class Login {
   handleSubmitAdmin = (e) => {
     e.preventDefault();
     const user = {
-      type: "Admin", //bug par moi  //replace employee by admin of email/password
+      type: "Admin",  //Remplacer employee par admin sur email/password
       email: e.target.querySelector(`input[data-testid="admin-email-input"]`)
         .value,
       password: e.target.querySelector(
@@ -66,7 +66,7 @@ export default class Login {
         this.PREVIOUS_LOCATION = ROUTES_PATH["Dashboard"];
         PREVIOUS_LOCATION = this.PREVIOUS_LOCATION;
         this.document.body.style.backgroundColor =
-          "#fff"; /* bug par moi add this.*/
+          "#fff"; /*add this.*/
       });
   };
 

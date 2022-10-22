@@ -1,6 +1,5 @@
 .layout {
   display: flex;
-  border: 2px solid;
   height: auto;
 }
 
@@ -8,7 +7,7 @@
   width: 80px;
   background-color: #0E5AE5;
   color: #fff;
-  height: 150vh; 
+  height: auto; 
 }
 
 .layout-title {

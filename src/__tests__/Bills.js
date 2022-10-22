@@ -20,6 +20,7 @@ import { ROUTES } from "../constants/routes";
 import store from "../__mocks__/store.js";
 /*************** */
 
+//Mise en surbrillance l'icone factures (vertical-bar)
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
     test("Then bill icon in vertical layout should be highlighted", async () => {
@@ -40,10 +41,10 @@ describe("Given I am connected as an employee", () => {
       await waitFor(() => screen.getByTestId("icon-window"));
       const windowIcon = screen.getByTestId("icon-window");
       //to-do write expect expression
-/******************rajout**************** */
+      /******************rajout**************** */
       expect(windowIcon).toHaveClass("active-icon");
       /****************************************** */
-    });
+    }); //Tri des factures (plus ancien à plus récent)
     test("Then bills should be ordered from earliest to latest", () => {
       document.body.innerHTML = BillsUI({
         data: bills,
@@ -61,7 +62,7 @@ describe("Given I am connected as an employee", () => {
   });
 });
 
-/******************rajout*************** */
+//Retourne les bills data
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bill Page", () => {
     test("Then return bills data", () => {
@@ -94,7 +95,7 @@ describe("Given I am connected as an employee", () => {
     });
   });
 });
-
+//Retourne le chargement de la page
 describe("Given I try to connect Bill page as an Employee", () => {
   describe("When I am Login Page", () => {
     test("Then it should render LoadingPage", () => {
@@ -111,8 +112,9 @@ describe("Given I try to connect Bill page as an Employee", () => {
     });
   });
 });
-
+//Retour d'un message d'erreur par le backend en arrivant sur la page facture
 describe("When I am on Bills page but back-end send an error message", () => {
+  //Retourne la page d'erreur
   test("Then, Error page should be rendered", () => {
     document.body.innerHTML = BillsUI({
       error: "some error message",
@@ -120,7 +122,7 @@ describe("When I am on Bills page but back-end send an error message", () => {
     expect(screen.getAllByText("Erreur")).toBeTruthy();
   });
 });
-
+//Affichage icone oeil sur factures présentes
 describe("When there are bills on the Bill page", () => {
   test("It should display an icon eye", () => {
     document.body.innerHTML = BillsUI({ data: bills });
@@ -128,7 +130,7 @@ describe("When there are bills on the Bill page", () => {
     expect(iconEye).toBeTruthy();
   });
 });
-
+//Ouverture de la modale nouvelle facture
 describe("Given I am employee", () => {
   describe("When I navigate to Bill page", () => {
     test("When I click on new bill button then a modal should open", () => {
@@ -171,7 +173,7 @@ describe("Given I am employee", () => {
   });
 });
 
-//test d'integration
+//Ouverture de la modale avec justificatif de facture au clique sur icone oeil
 describe("Given I am employee", () => {
   describe("When I navigate to Bill page", () => {
     test("When I click on eye to show details of bill a modal should open", async () => {
@@ -222,7 +224,7 @@ describe("Given I am user connected as employee", () => {
       expect(contentPending).toBeTruthy();
       expect(screen.getByTestId("btn-new-bill")).toBeTruthy();
     });
-
+    //Gestion d'erreur 404/500
     describe("When an error occurs on API", () => {
       beforeEach(() => {
         jest.spyOn(store, "bills");
@@ -272,4 +274,3 @@ describe("Given I am user connected as employee", () => {
     });
   });
 });
- 

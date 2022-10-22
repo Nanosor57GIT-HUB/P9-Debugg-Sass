@@ -15,7 +15,7 @@ export const filteredBills = (data, status) => {
         selectCondition = bill.status === status;
       } else {
       /* istanbul ignore next */
-        // in prod environment // istanbul ignore next
+        // in prod environment 
         const userEmail = JSON.parse(localStorage.getItem("user")).email;
         selectCondition =
           bill.status === status &&
@@ -88,7 +88,7 @@ export default class {
     if (
       this.counter === undefined ||
       this.id !== bill.id ||
-      this.index !== undefined //bug par moi 
+      this.index !== undefined //index contraire à undefined
     )
       this.counter = 0;
     if (this.id === undefined || this.id !== bill.id) this.id = bill.id
@@ -135,43 +135,13 @@ export default class {
     this.onNavigate(ROUTES_PATH['Dashboard'])
   }
 
-  // handleShowTickets(e, bills, index) {
-  //   if (this.counter === undefined || this.index !== index) this.counter = 0;
-  //   if (this.index === undefined || this.index !== index) this.index = index;
-  //   if (this.counter % 2 === 0) {
-  //     $(`#arrow-icon${this.index}`).css({ transform: "rotate(0deg)" });
-  //     $(`#status-bills-container${this.index}`).html(
-  //       cards(filteredBills(bills, getStatus(this.index)))
-  //     );
-  //     this.counter++;
-  //   } else {
-  //     $(`#arrow-icon${this.index}`).css({ transform: "rotate(90deg)" });
-  //     $(`#status-bills-container${this.index}`).html("");
-  //     this.counter++;
-  //   }
-
-    
-    
-
-  //   bills.forEach((bill) => {
-  //     //  console.log(bill);
-  //     $(`#open-bill${bill.id}`).click((e) =>
-  //       this.handleEditTicket(e, bill, bills)
-  //     );
-  //     // console.log(e);
-  //   });
-
-  //   return bills;
-  // }
-
-  /*************************************************************** */
-  //bug corrigé par moi
+  //correction gestion des arrows
   handleShowTickets(e, bills, index) {
     const arrow = $(`#arrow-icon${index}`)[0];
     const container = $(`#status-bills-container${index}`)[0];
     arrow.classList.toggle("open-section");
     if (arrow.classList.contains("open-section")) {
-      // it is opened.
+      // Si c'est ouvert.
       $(arrow).css({ transform: "rotate(0deg)" });
       if (container.hasChildNodes()) {
         const fBills = filteredBills(bills, getStatus(index));
@@ -184,7 +154,7 @@ export default class {
       }
       container.style.display = "block";
     } else {
-      // it is closed
+      // Si c'est fermé
       $(arrow).css({ transform: "rotate(90deg)" });
       container.style.display = "none";
     }

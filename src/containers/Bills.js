@@ -43,7 +43,7 @@ export default class {
         .then((snapshot) => {
           //tri bills par date DESC
           const bills = snapshot
-            .sort((a, b) => new Date(a.date) - new Date(b.date)) //Tri des dates
+            .sort((a, b) => new Date(b.date) - new Date(a.date)) //Tri des dates
             .map((doc) => {
               try {
                 return {
